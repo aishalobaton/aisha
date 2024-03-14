@@ -26,13 +26,12 @@ with st.sidebar:
                   cv2_img=cv2.bitwise_not(cv2_img)
             else:
                   cv2_img= cv2_img
-    
-        
-    img_rgb = cv2.cvtColor(cv2_img, cv2.COLOR_BGR2RGB)
-    text=pytesseract.image_to_string(img_rgb)
+                  
+img_rgb = cv2.cvtColor(cv2_img, cv2.COLOR_BGR2RGB)
+text=pytesseract.image_to_string(img_rgb)
 
     
-    st.write(text) 
+st.write(text) 
     if text:
 
         translation = translator.translate(text, src="es", dest="en")
