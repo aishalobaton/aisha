@@ -1,5 +1,4 @@
 from textblob import TextBlob
-import pandas as pd
 import streamlit as st
 from googletrans import Translator
 import cv2
@@ -10,7 +9,7 @@ from PIL import Image
 st.title('Los caracteres y las emociones')
 image = Image.open('emoticones.jpg')
 st.image(image)
-st.subheader("Por favor toma una foto del texto que quieres análizar")
+st.subheader("Por favor toma una foto del texto que quieres analizar")
 
 translator = Translator()
 
@@ -32,8 +31,8 @@ if img_file_buffer is not None:
     text = pytesseract.image_to_string(cv2.cvtColor(cv2_img, cv2.COLOR_BGR2RGB))
     
     st.write(text)
-
-if text:
+    
+    if text:
         try:
             translation = translator.translate(text, src="es", dest="en")
             trans_text = translation.text
