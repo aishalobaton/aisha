@@ -15,19 +15,15 @@ st.subheader("Ingresa un texto y genera un audio, además podrás traducir y ana
 translator = Translator()
 tld="es"
 
-def text_to_speech(text, tld):
+def text_to_speech(text, tld, filename):
     tts = gTTS(text, lang="es", slow=False)
-    try:
-        my_file_name = text[0:20]
-    except:
-        my_file_name = "audio"
-    tts.save(f"temp/{my_file_name}.mp3")
-    return my_file_name, text
+    tts.save(filename)
+    return filename, text
 
 text = st.text_input("Ingresa el texto.")
 
 if st.button("Audio"):
-    result, output_text = text_to_speech(text, tld)
+    result, output_text = text_to_speech(text, tld, f"temp/{text[:20]}.mp3")
     audio_file = open(f"temp/{result}.mp3", "rb")
     audio_bytes = audio_file.read()
     st.markdown(f"## Tú audio:")
