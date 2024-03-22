@@ -9,7 +9,7 @@ from PIL import Image
 st.title('Los caracteres y las emociones')
 image = Image.open('emoticones.jpg')
 st.image(image)
-st.subheader("Por favor toma una foto del texto que quieres analizar")
+st.subheader("Por favor ingresa una foto del texto que quieres analizar")
 
 translator = Translator()
 
@@ -24,9 +24,6 @@ if img_file_buffer is not None:
 
     if filtro == 'Con Filtro':
         cv2_img = cv2.bitwise_not(cv2_img)
-
-    # Display the image with or without filter
-    st.image(cv2.cvtColor(cv2_img, cv2.COLOR_BGR2RGB), use_column_width=True)
 
     text = pytesseract.image_to_string(cv2.cvtColor(cv2_img, cv2.COLOR_BGR2RGB))
     
