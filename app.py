@@ -5,6 +5,9 @@ import cv2
 import numpy as np
 import pytesseract
 from PIL import Image
+from gtts import gTTS
+import os
+
 
 st.title('Los caracteres y las emociones')
 image = Image.open('emoticones.jpg')
@@ -37,8 +40,17 @@ if img_file_buffer is not None:
             st.write('Polarity: ', round(blob.sentiment.polarity, 2))
             st.write('Subjectivity: ', round(blob.sentiment.subjectivity, 2))
             x = round(blob.sentiment.polarity, 2)
+
+
+
             if x >= 0.5:
+                texto_audio = "Yupi, estás feliz"
+                tts = gTTS(text=texto_audio, lang='es')
+                tts.save("yupi_estas_feliz.mp3")
+                os.system("mpg123 yupi_estas_feliz.mp3")
                 st.write('Es un sentimiento Positivo 😊')
+                generar_audio()
+
             elif x <= -0.5:
                 st.write('Es un sentimiento Negativo 😔')
             else:
