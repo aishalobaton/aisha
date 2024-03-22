@@ -1,13 +1,8 @@
 from textblob import TextBlob
-import streamlit as st
-from googletrans import Translator
-import cv2
-import numpy as np
-import pytesseract
-from PIL import Image
-from gtts import gTTS
-import os
 import pandas as pd
+import streamlit as st
+from PIL import Image
+from googletrans import Translato
 
 
 
@@ -17,7 +12,27 @@ st.image(image)
 st.subheader("Por favor ingresa una foto del texto que quieres analizar")
 
 translator = Translator()
+tld="es"
 
+ def generar_audio():
+    if x >= 0.5:
+        texto_audio = "Yupi, tu texto feliz"
+        tts = gTTS(text=texto_audio, lang='es')
+        tts.save("feliz.mp3")
+        os.system("mpg123 feliz.mp3")
+    elif x <= -0.5:
+        texto_audio = "Que mal, tu texto es triste"
+        tts = gTTS(text=texto_audio, lang='es')
+        tts.save("triste.mp3")
+        os.system("mpg123 triste.mp3")
+    else:
+        texto_audio = "Tu texto es neutral"
+        tts = gTTS(text=texto_audio, lang='es')
+        tts.save("neutro.mp3")
+        os.system("mpg123 neutro.mp3")
+
+
+    
 with st.expander('Analizar texto'):
     text = st.text_input('Escribe por favor: ')
     if text:
@@ -30,7 +45,13 @@ with st.expander('Analizar texto'):
         x=round(blob.sentiment.polarity,2)
         if x >= 0.5:
             st.write( 'Es un sentimiento Positivo 😊')
+            generar_audio()
+
         elif x <= -0.5:
             st.write( 'Es un sentimiento Negativo 😔')
+            generar_audio()
+
         else:
             st.write( 'Es un sentimiento Neutral 😐')
+            generar_audio()
+
