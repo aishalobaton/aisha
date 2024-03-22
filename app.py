@@ -1,65 +1,64 @@
-from textblob import TextBlob
-import pandas as pd
+import os
 import streamlit as st
 from PIL import Image
 from googletrans import Translator
-import os
 import time
 import glob
-import os
 from gtts import gTTS
-
 
 st.title('Las palabras y las emociones')
 image = Image.open('emoticones.jpg')
 st.image(image)
-st.subheader("Al ingresar un texto se generará un audio con lo que escribiste y además se analizará el tipo de emoción que se incluye en el texo.")
+st.subheader("Al ingresar un texto se generará un audio con lo que escribiste y además se analizará el tipo de emoción que se incluye en el texto.")
 
 translator = Translator()
-tld="es"
-
 try:
     os.mkdir("temp")
 except:
     pass
 
-
 text = st.text_input("Ingrese el texto.")
 
-tld="es"
+# Selección del idioma de traducción
+languages = {
+    "es": "Español",
+    "en": "Inglés",
+    "fr": "Francés",
+    "de": "Alemán",
+    "it": "Italiano",
+    "ja": "Japonés",
+    "ko": "Coreano",
+    "zh-cn": "Chino Simplificado",
+    "ru": "Ruso",
+}
+input_language = st.selectbox("Seleccione el idioma de entrada:", list(languages.values()))
+output_language = st.selectbox("Seleccione el idioma de salida:", list(languages.values()))
 
-def text_to_speech(text, tld):
-    
-    tts = gTTS(text,"es", tld, slow=False)
+def text_to_speech(text, input_language, output_language):
+    translation = translator.translate(text, src=input_language, dest=output_language)
+    trans_text = translation.text
+    tts = gTTS(trans_text, lang=output_language, slow=False)
     try:
         my_file_name = text[0:20]
     except:
         my_file_name = "audio"
     tts.save(f"temp/{my_file_name}.mp3")
-    return my_file_name, text
-
-
-#display_output_text = st.checkbox("Verifica el texto")
+    return my_file_name, trans_text
 
 if st.button("Audio"):
-    result, output_text = text_to_speech(text, tld)
+    result, output_text = text_to_speech(text, input_language[:2], output_language[:2])
     audio_file = open(f"temp/{result}.mp3", "rb")
     audio_bytes = audio_file.read()
     st.markdown(f"## Tú audio:")
     st.audio(audio_bytes, format="audio/mp3", start_time=0)
 
-   
-
-    
 with st.expander('Analizar texto'):
-
     if text:
-
-        translation = translator.translate(text, src="es", dest="en")
+        translation = translator.translate(text, src=input_language[:2], dest="en")
         trans_text = translation.text
         blob = TextBlob(trans_text)
-        st.write('Polarity: ', round(blob.sentiment.polarity,2))
-        st.write('Subjectivity: ', round(blob.sentiment.subjectivity,2))
+        st.write('Polaridad: ', round(blob.sentiment.polarity,2))
+        st.write('Subjetividad: ', round(blob.sentiment.subjectivity,2))
         x=round(blob.sentiment.polarity,2)
         if x >= 0.5:
             st.write( 'Es un sentimiento Positivo 😊')
@@ -85,6 +84,5 @@ def remove_files(n):
             if os.stat(f).st_mtime < now - n_days:
                 os.remove(f)
                 print("Deleted ", f)
-
 
 remove_files(7)
