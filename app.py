@@ -45,6 +45,10 @@ with st.expander('Analizar texto'):
         translation = translator.translate(text, dest=dest_lang_code)
         trans_text = translation.text
         result_trans, _ = text_to_speech(trans_text, dest_lang_code)
+        audio_file1 = open(f"temp/{result}.mp3", "rb")
+        audio_bytes1 = audio_file1.read()
+        st.markdown(f"## Tú audio traducido:")
+        st.audio(audio_bytes1, format="audio/mp3", start_time=0)
         blob = TextBlob(trans_text)
         st.write('Texto traducido:', trans_text)
         st.write('Polaridad:', round(blob.sentiment.polarity, 2))
