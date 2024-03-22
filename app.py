@@ -10,10 +10,10 @@ import os
 from gtts import gTTS
 
 
-st.title('Los caracteres y las emociones')
+st.title('Las palabras y las emociones')
 image = Image.open('emoticones.jpg')
 st.image(image)
-st.subheader("Por favor ingresa una foto del texto que quieres analizar")
+st.subheader("Al ingresar un texto se generará un audio con lo que escribiste y además se analizará el tipo de emoción que se incluye en el texo.")
 
 translator = Translator()
 tld="es"
@@ -41,7 +41,7 @@ def text_to_speech(text, tld):
 
 #display_output_text = st.checkbox("Verifica el texto")
 
-if st.button("convertir"):
+if st.button(Audio"):
     result, output_text = text_to_speech(text, tld)
     audio_file = open(f"temp/{result}.mp3", "rb")
     audio_bytes = audio_file.read()
@@ -65,11 +65,13 @@ with st.expander('Analizar texto'):
         x=round(blob.sentiment.polarity,2)
         if x >= 0.5:
             st.write( 'Es un sentimiento Positivo 😊')
-            audio_feliz()
+            image_feliz = Image.open('feliz.jpg')
+            st.image(image_feliz)
 
         elif x <= -0.5:
             st.write( 'Es un sentimiento Negativo 😔')
-            audio_triste()
+            image_triste = Image.open('triste.jpg')
+            st.image(image_triste)
 
         else:
             st.write( 'Es un sentimiento Neutral 😐')
