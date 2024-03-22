@@ -6,6 +6,12 @@ import time
 import glob
 from gtts import gTTS
 
+
+from bokeh.models.widgets import Button
+from bokeh.models import CustomJS
+from streamlit_bokeh_events import streamlit_bokeh_events
+
+
 st.title('Las palabras y las emociones')
 image = Image.open('emoticones.jpg')
 st.image(image)
@@ -28,11 +34,11 @@ languages = {
     "it": "Italiano",
     "ja": "Japonés",
     "ko": "Coreano",
-    "zh-cn": "Chino Simplificado",
+    "zh-cn": "Chino",
     "ru": "Ruso",
 }
-input_language = st.selectbox("Seleccione el idioma de entrada:", list(languages.values()))
-output_language = st.selectbox("Seleccione el idioma de salida:", list(languages.values()))
+input_language = es
+output_language = st.selectbox("¿A qué idioma deseas traducir?:", list(languages.values()))
 
 def text_to_speech(text, input_language, output_language):
     translation = translator.translate(text, src=input_language, dest=output_language)
