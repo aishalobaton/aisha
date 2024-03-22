@@ -10,7 +10,7 @@ from textblob import TextBlob
 st.title('Las palabras y las emociones')
 image = Image.open('emoticones.jpg')
 st.image(image)
-st.subheader(Ingresa un texto y genera un audio, además podrás traducir y analizar el texto para saber qué tipo de emoción incluye.")
+st.subheader("Ingresa un texto y genera un audio, además podrás traducir y analizar el texto para saber qué tipo de emoción incluye.")
 
 translator = Translator()
 tld="es"
