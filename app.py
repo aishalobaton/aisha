@@ -7,10 +7,6 @@ import glob
 from gtts import gTTS
 
 
-from bokeh.models.widgets import Button
-from bokeh.models import CustomJS
-from streamlit_bokeh_events import streamlit_bokeh_events
-
 
 st.title('Las palabras y las emociones')
 image = Image.open('emoticones.jpg')
