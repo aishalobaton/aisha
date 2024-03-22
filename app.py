@@ -10,7 +10,7 @@ from textblob import TextBlob
 st.title('Las palabras y las emociones')
 image = Image.open('emoticones.jpg')
 st.image(image)
-st.subheader("Al ingresar un texto se generará un audio con lo que escribiste y además se analizará el tipo de emoción que se incluye en el texto.")
+st.subheader(Ingresa un texto y genera un audio, además podrás traducir y analizar el texto para saber qué tipo de emoción incluye.")
 
 translator = Translator()
 tld="es"
@@ -24,7 +24,7 @@ def text_to_speech(text, tld):
     tts.save(f"temp/{my_file_name}.mp3")
     return my_file_name, text
 
-text = st.text_input("Ingrese el texto.")
+text = st.text_input("Ingresa el texto.")
 
 if st.button("Audio"):
     result, output_text = text_to_speech(text, tld)
@@ -37,7 +37,7 @@ with st.expander('Analizar texto'):
 
     if text:
         dest_lang = st.selectbox(
-            "Selecciona el idioma de destino:",
+            "Selecciona el idioma al que quieres traducir:",
             ("Inglés", "Español", "Francés", "Alemán", "Italiano", "Portugués", "Ruso", "Chino", "Japonés", "Coreano")
         )
         dest_lang_code = dest_lang.lower()[:2]  # Obtener el código de idioma
