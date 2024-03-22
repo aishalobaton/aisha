@@ -23,7 +23,7 @@ def text_to_speech(text, tld, filename):
 text = st.text_input("Ingresa el texto.")
 
 if st.button("Audio"):
-    result, output_text = text_to_speech(text, tld, f"temp/{text[:20]}.mp3")
+    result, output_text = text_to_speech(text, tld)
     audio_file = open(f"temp/{result}.mp3", "rb")
     audio_bytes = audio_file.read()
     st.markdown(f"## Tú audio:")
