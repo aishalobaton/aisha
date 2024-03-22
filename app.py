@@ -17,22 +17,18 @@ st.subheader("Por favor ingresa una foto del texto que quieres analizar")
 translator = Translator()
 tld="es"
 
-def generar_audio():
+def audio_feliz():
  if x >= 0.5:
-  texto_audio = "Yupi, tu texto feliz"
+  texto_audio = "Yupi, tu texto es feliz"
   tts = gTTS(text=texto_audio, lang='es')
   tts.save("feliz.mp3")
   os.system("mpg123 feliz.mp3")
- elif x <= -0.5:
+def audio_triste():  
+ if x <= -0.5:
   texto_audio = "Que mal, tu texto es triste"
   tts = gTTS(text=texto_audio, lang='es')
   tts.save("triste.mp3")
   os.system("mpg123 triste.mp3")
- else:
-  texto_audio = "Tu texto es neutral"
-  tts = gTTS(text=texto_audio, lang='es')
-  tts.save("neutro.mp3")
-  os.system("mpg123 neutro.mp3")
 
 
     
@@ -48,13 +44,14 @@ with st.expander('Analizar texto'):
         x=round(blob.sentiment.polarity,2)
         if x >= 0.5:
             st.write( 'Es un sentimiento Positivo 😊')
-            generar_audio()
+            audio_feliz()
 
         elif x <= -0.5:
             st.write( 'Es un sentimiento Negativo 😔')
-            generar_audio()
+            audio_triste()
 
         else:
             st.write( 'Es un sentimiento Neutral 😐')
-            generar_audio()
+            image_neutro = Image.open('neutro.jpg')
+            st.image(image_neutro)
 
