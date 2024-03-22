@@ -42,20 +42,35 @@ if img_file_buffer is not None:
             x = round(blob.sentiment.polarity, 2)
 
 
+            def generar_audio():
+                if x >= 0.5:
+                    texto_audio = "Yupi, tu texto feliz"
+                    tts = gTTS(text=texto_audio, lang='es')
+                    tts.save("feliz.mp3")
+                    os.system("mpg123 feliz.mp3")
+                elif x <= -0.5:
+                    texto_audio = "Que mal, tu texto es triste"
+                    tts = gTTS(text=texto_audio, lang='es')
+                    tts.save("triste.mp3")
+                    os.system("mpg123 triste.mp3")
+                else:
+                    texto_audio = "Tu texto es neutral"
+                    tts = gTTS(text=texto_audio, lang='es')
+                    tts.save("neutro.mp3")
+                    os.system("mpg123 neutro.mp3")
+
 
             if x >= 0.5:
-                texto_audio = "Yupi, estás feliz"
-                tts = gTTS(text=texto_audio, lang='es')
-                tts.save("yupi_estas_feliz.mp3")
-                os.system("mpg123 yupi_estas_feliz.mp3")
                 st.write('Es un sentimiento Positivo 😊')
                 generar_audio()
 
             elif x <= -0.5:
                 st.write('Es un sentimiento Negativo 😔')
+                generar_audio()
             else:
                 st.write('Es un sentimiento Neutral 😐')
+                generar_audio()
         except Exception as e:
             st.error(f"Error en la traducción: {e}")
 else:
-    st.write("Toma una foto para analizar.")
+    st.write("Toma una foto para analizar la emoción en el texto.")
