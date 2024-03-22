@@ -2,8 +2,11 @@ from textblob import TextBlob
 import pandas as pd
 import streamlit as st
 from PIL import Image
-from googletrans import Translato
-
+from googletrans import Translator
+import os
+import time
+import glob
+from gtts import gTTS
 
 
 st.title('Los caracteres y las emociones')
