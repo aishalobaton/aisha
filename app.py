@@ -44,8 +44,8 @@ with st.expander('Analizar texto'):
 
         translation = translator.translate(text, dest=dest_lang_code)
         trans_text = translation.text
-        result_trans, _ = text_to_speech(trans_text, dest_lang_code)
-        audio_file1 = open(f"temp/{result}.mp3", "rb")
+        result_trans, _ = text_to_speech(trans_text, dest_lang_code, f"temp/{trans_text[:20]}.mp3")
+        audio_file1 = open(f"temp/{result_trans}.mp3", "rb")
         audio_bytes1 = audio_file1.read()
         st.markdown(f"## Tú audio traducido:")
         st.audio(audio_bytes1, format="audio/mp3", start_time=0)
