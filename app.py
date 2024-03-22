@@ -10,17 +10,21 @@ from textblob import TextBlob
 st.title('Las palabras y las emociones')
 image = Image.open('emoticones.jpg')
 st.image(image)
-st.subheader("Ingresa un texto y genera un audio, además podrás traducir y analizar el texto para saber qué tipo de emoción incluye.")
+st.subheader("Al ingresar un texto se generará un audio con lo que escribiste y además se analizará el tipo de emoción que se incluye en el texto.")
 
 translator = Translator()
 tld="es"
 
-def text_to_speech(text, tld, filename):
+def text_to_speech(text, tld):
     tts = gTTS(text, lang="es", slow=False)
-    tts.save(filename)
-    return filename, text
+    try:
+        my_file_name = text[0:20]
+    except:
+        my_file_name = "audio"
+    tts.save(f"temp/{my_file_name}.mp3")
+    return my_file_name, text
 
-text = st.text_input("Ingresa el texto.")
+text = st.text_input("Ingrese el texto.")
 
 if st.button("Audio"):
     result, output_text = text_to_speech(text, tld)
@@ -33,23 +37,17 @@ with st.expander('Analizar texto'):
 
     if text:
         dest_lang = st.selectbox(
-            "Selecciona el idioma al que quieres traducir:",
+            "Selecciona el idioma de destino:",
             ("Inglés", "Español", "Francés", "Alemán", "Italiano", "Portugués", "Ruso", "Chino", "Japonés", "Coreano")
         )
         dest_lang_code = dest_lang.lower()[:2]  # Obtener el código de idioma
 
         translation = translator.translate(text, dest=dest_lang_code)
         trans_text = translation.text
-        result_trans, _ = text_to_speech(trans_text, dest_lang_code, f"temp/{trans_text[:20]}.mp3")
-        audio_file1 = open(f"temp/{result_trans}.mp3", "rb")
-        audio_bytes1 = audio_file1.read()
-        st.write('Texto traducido:', trans_text)
-        st.markdown(f"## Tú audio traducido:")
-        st.audio(audio_bytes1, format="audio/mp3", start_time=0)
         blob = TextBlob(trans_text)
-        
-        st.write('Polaridad:', round(blob.sentiment.polarity, 2))
-        st.write('Subjetividad:', round(blob.sentiment.subjectivity, 2))
+        st.write('Texto traducido:', trans_text)
+        st.write('Polarity:', round(blob.sentiment.polarity, 2))
+        st.write('Subjectivity:', round(blob.sentiment.subjectivity, 2))
 
         x = round(blob.sentiment.polarity, 2)
         if x >= 0.5:
@@ -78,4 +76,3 @@ def remove_files(n):
                 print("Deleted ", f)
 
 remove_files(7)
-
