@@ -44,10 +44,11 @@ with st.expander('Analizar texto'):
 
         translation = translator.translate(text, dest=dest_lang_code)
         trans_text = translation.text
+        result_trans, _ = text_to_speech(trans_text, dest_lang_code)
         blob = TextBlob(trans_text)
         st.write('Texto traducido:', trans_text)
-        st.write('Polarity:', round(blob.sentiment.polarity, 2))
-        st.write('Subjectivity:', round(blob.sentiment.subjectivity, 2))
+        st.write('Polaridad:', round(blob.sentiment.polarity, 2))
+        st.write('Subjetividad:', round(blob.sentiment.subjectivity, 2))
 
         x = round(blob.sentiment.polarity, 2)
         if x >= 0.5:
